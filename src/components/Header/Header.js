@@ -1,5 +1,5 @@
 import React from 'react'
-import icon from '../../assets/bytehash-icon.jpg'
+import icon from '../../assets/bytehashIcon.png'
 
 export default function Header() {
   return (

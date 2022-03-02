@@ -10,20 +10,26 @@ export default function Main() {
 
     return (
         <div>
-            <div className="flex justify-center mt-16 py-2">
-                <div className="xl:w-1/3">
-                    <div className="input-group relative flex flex-auto items-stretch w-full mb-4 rounded">
-                    <input type="search" className="form-control relative flex-auto min-w-0 block w-full px-8 py-6 
-                    text-base font-normal text-[#f8f9fb] bg-[#02104d] bg-clip-padding border
-                    border-none rounded-l-xl transition ease-in-out m-0 focus:text-[#f8f9fb] focus:bg-[#02104d]
-                    focus:border-blue-600 focus:outline-none placeholder:text-xs" 
-                    placeholder="Search by Address / Txhash / Block / Token / Ens"/>
-                    <span className="input-group-text flex items-center pr-8 py-1.5 text-base font-normal bg-[#02104d]
-                    text-gray-700 text-center whitespace-nowrap rounded-r-xl">
-                        <svg color="#42e276" xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </span>
+            <div className="flex justify-center mt-16 py-2 xl:w-full md:w-full mx-auto">
+                <div className="xl:w-1/3 md:w-1/2 mx-auto">
+                    <div className="relative flex flex-auto items-stretch w-full mb-4 rounded">
+                        <input type="search" className="form-control relative flex-auto min-w-0 block w-full px-8 py-6 
+                        text-base font-normal text-[#f8f9fb] bg-[#02104d] bg-clip-padding rounded-xl
+                         transition ease-in-out m-0 focus:text-[#f8f9fb] focus:bg-[#02104d]
+                        focus:border-blue-600 focus:outline-none placeholder:text-xs" 
+                        placeholder="Search by Address / Txhash / Block / Token / Ens"/>
+                        <span className="absolute inset-y-0 right-0 p-6 input-group-text flex items-center pr-8 py-1.5 text-base font-normal bg-[#02104d]
+                        text-gray-700 text-center whitespace-nowrap rounded-xl">
+                            <svg color="#42e276" xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </span>
+                        {/* <span className="input-group-text flex items-center pr-8 py-1.5 text-base font-normal bg-[#02104d]
+                        text-gray-700 text-center whitespace-nowrap rounded-r-xl">
+                            <svg color="#42e276" xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </span> */}
                     </div>
                 </div>
             </div>
@@ -32,7 +38,7 @@ export default function Main() {
                 <p onClick={onChange} className={`${!readFlag ? 'text-[#f8f9fb] cursor-pointer' : 'text-gray-400 cursor-pointer'}`}>Write Contracts</p>
             </div>
             {readFlag &&
-            <div className="mt-5 xl:w-1/3 mx-auto">
+            <div className="mt-5 xl:w-1/3 md:w-1/2 mx-auto">
                 {/* item 1 */}
                 <div>
                     <p className="md:space-x-1 space-y-1 md:space-y-0 mb-4">
