@@ -10,8 +10,8 @@ export default function Main() {
 
     return (
         <div>
-            <div className="flex justify-center mt-16 py-2 xl:w-full md:w-full mx-auto">
-                <div className="xl:w-1/3 md:w-1/2 mx-auto">
+            <div className="flex justify-center mt-16 py-2 xl:w-full md:w-full sm:w-full mx-auto">
+                <div className="xl:w-1/3 md:w-1/2 sm:w-3/4 w-11/12 mx-auto">
                     <div className="relative flex flex-auto items-stretch w-full mb-4 rounded">
                         <input type="search" className="form-control relative flex-auto min-w-0 block w-full px-8 py-6 
                         text-base font-normal text-[#f8f9fb] bg-[#02104d] bg-clip-padding rounded-xl
@@ -38,7 +38,7 @@ export default function Main() {
                 <p onClick={onChange} className={`${!readFlag ? 'text-[#f8f9fb] cursor-pointer' : 'text-gray-400 cursor-pointer'}`}>Write Contracts</p>
             </div>
             {readFlag &&
-            <div className="mt-5 xl:w-1/3 md:w-1/2 mx-auto">
+            <div className="mt-5 xl:w-1/3 md:w-1/2 sm:w-3/4 w-11/12 mx-auto">
                 {/* item 1 */}
                 <div>
                     <p className="md:space-x-1 space-y-1 md:space-y-0 mb-4">
