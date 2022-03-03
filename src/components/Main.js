@@ -2,9 +2,14 @@ import React, { useState, useEffect } from 'react'
 
 export default function Main() {
   const [readFlag, setReadFlag] = useState(true)
+  const [address, setAddress] = useState("")
 
   function onChange() {
     setReadFlag((prevState) => !prevState)
+  }
+
+  function readAddress(event) {
+      setAddress(event.target.value)
   }
 
   return (
@@ -19,6 +24,7 @@ export default function Main() {
                          transition ease-in-out m-0 focus:text-[#f8f9fb] focus:bg-[#02104d]
                         focus:border-blue-600 focus:outline-none placeholder:text-xs"
               placeholder="Search by Address / Txhash / Block / Token / Ens"
+              onChange={readAddress}
             />
             <span
               className="absolute inset-y-0 right-0 p-6 input-group-text flex items-center pr-8 py-1.5 text-base font-normal bg-[#02104d]
@@ -47,6 +53,8 @@ export default function Main() {
                             </svg>
                         </span> */}
           </div>
+          {/* Used for testing */}
+          {/* <h1>{address}</h1> */}
         </div>
       </div>
       <div className="flex justify-center gap-10 my-4 mb-10">
