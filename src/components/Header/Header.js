@@ -3,7 +3,7 @@ import icon from '../../assets/bytehashIcon.png'
 import ConnectButton from './Button'
 import { ethers } from 'ethers'
 
-export default function Header() {
+export default function Header(props) {
   const getProvider = () => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -15,7 +15,7 @@ export default function Header() {
 
   if (getProvider()) {
     return (
-      <header className="h-20 mt-2 px-5 flex items-center">
+      <header className="h-20 mt-2 px-5 flex items-center cursor-pointer" onClick={props.onChange} >
         <img className="h-full" src={icon} alt="icon"></img>
         <h1 className="mr-auto font-semibold justify-content-center text-3xl">
           byteHash
