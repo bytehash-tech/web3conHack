@@ -3,6 +3,16 @@ body {
   color: #f8f9fb;
 }
 
+body::-webkit-scrollbar {
+  width: 10px;               /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #031566;    /* color of the scroll thumb */
+  border-radius: 10px;       /* roundness of the scroll thumb */
+}
+
+
 .App {
   text-align: center;
 }
