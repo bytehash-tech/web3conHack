@@ -255,25 +255,28 @@ export default function Main() {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner()
       const MyContract = new ethers.Contract( givenContractAddress , contractABI , signer);
-      var funName = name+'.'+'(...inputValues)';
       try{
         const { ethereum } = window;
 
         let chainId = await ethereum.request({ method: 'eth_chainId' });
-        console.log("Connected to chain " + chainId);
-
-        // String, hex code of the chainId of the Rinkebey test network
-        // const rinkebyChainId = "0x4"; 
         if (chainId !== `0x${chain_ID.get(dropDownValue)}`) {
           alert(`Please change your netwrok to "${dropDownValue}"`);
           return;
         }
         let gasEstimateByProv = await MyContract[name](...inputValues);
-        let tx = await MyContract[name](...inputValues, {gasLimit: 1.5*gasEstimateByProv});
-        $( `#${name+'result'}` ).html(`Result : ${tx}`);
+        const readFuncs = ['pure', 'view']
+        let tx;
+        if(readFuncs.includes(stateMutability)){
+          tx = await MyContract[name](...inputValues);
+        }else{
+          tx = await MyContract[name](...inputValues, {gasLimit: (2*gasEstimateByProv+50000)});
+        }         
+        $( `#${name}result` ).html(`Result : ${tx}`);
       }catch(error){
+        console.log(error);
         try{alert(error.message.split('"message"')[1].split('"')[1])}
         catch{
+          console.log(error);
           alert(error.message)
         }        
       }
@@ -303,19 +306,16 @@ export default function Main() {
         {renderName()}
         {renderDynamicInputs()}
         {renderSubmitAction()}
-        <p className='px-2 text-white' id={name+'result'} ></p>
+        <p className='px-2 text-white' id={`${name}result`} ></p>
       </form>
     );
   };
 
   const renderDynamicUi = (data, index) => {
     const { type } = data;
-    // const index = index;
-    // console.log('index is:',index)
     const typeRenderer = type === 'function' ? renderFuntionType : null;
 
     if(!typeRenderer) return null;
-    console.log('index is:',index)
     return typeRenderer(data, index);
   }
 
