@@ -15,9 +15,11 @@ export default function Header(props) {
 
   if (getProvider()) {
     return (
-      <header className="h-20 mt-2 px-5 flex items-center" onClick={props.onChange} >
-        <img className="h-full cursor-pointer" src={icon} alt="icon"></img>
-        <h1 className="mr-auto font-semibold cursor-pointer justify-content-center text-3xl">
+      <header className="h-20 mt-2 px-5 flex items-center" >
+        <img className="h-full cursor-pointer hover:animate-spin-slow" onClick={props.onChange} src={icon} alt="icon"></img>
+        <h1 className="mr-auto font-semibold cursor-pointer justify-content-center text-3xl"
+            onClick={props.onChange}
+        >
           byteHash
         </h1>
         <h2 className="p-4 ml-0 cursor-default text-xl mx-auto text-transparent bg-clip-text bg-gradient-to-br from-[#584AFA] to-[#49F56F]
