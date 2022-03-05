@@ -20,7 +20,7 @@ export default function Header(props) {
         <h1 className="mr-auto font-semibold cursor-pointer justify-content-center text-3xl">
           byteHash
         </h1>
-        <h2 className="p-4 ml-0 cursor-default text-xl mx-auto font-bold text-[#5925ad]
+        <h2 className="p-4 ml-0 cursor-default text-xl mx-auto text-transparent bg-clip-text bg-gradient-to-br from-[#584AFA] to-[#49F56F]
                 shadow-transparent rounded-xl">
                 Blockchain agnostic user interface to test/trigger smart contract functions
         </h2>

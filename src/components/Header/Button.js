@@ -65,12 +65,12 @@ function ConnectButton() {
                 {address}
                 <SelectOutlined className="pl-4" />
               </a>
-              <button 
+              {/* <button 
                 className="w-1/2 rounded-xl m-6 mb-0 p-2 hover:bg-green-400 bg-[#290b5a] hover:text-[#290b5a]"
                 onClick={() => {}}
               >
                 Disconnect Wallet
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

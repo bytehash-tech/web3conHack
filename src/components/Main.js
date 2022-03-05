@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import $ from 'jquery';
 import { ETHLogo } from './Logos';
-import { SelectOutlined, CloseOutlined } from "@ant-design/icons"
 
 export default function Main() {
   const [readFlag, setReadFlag] = useState(true)
@@ -12,6 +11,12 @@ export default function Main() {
   const [dropDownValue, setDropDownValue] = useState('');
   const [givenContractAddress, setGivenContractAddress] = useState('');
   const [contractABI, setContractABI] = useState([]);
+  const chain_ID = new Map();
+  chain_ID.set('mainnet', 1);
+  chain_ID.set('ropsten', 3);
+  chain_ID.set('rinkeby', 4);
+  chain_ID.set('goerli', 5);
+  chain_ID.set('kovan', 42);
 
   function onChange() {
     setReadFlag((prevState) => !prevState)
@@ -31,10 +36,6 @@ export default function Main() {
     const { value } = event.target;
     setDropDownValue(value);
   };
-
-  function clear(id){
-    document.getElementById(id).innerHTML = "0";
-  }
 
   function constructURL(givenChain, givenCAddress){
     let apiParam = 'https://api'
@@ -93,15 +94,19 @@ export default function Main() {
     const chain = dropDownValue;
     const expurl = constructEXPURL(chain,contractAddress);
     try{
-      $.getJSON(expurl, function (data) {
-          var contractABI = "";
-          if(data.success==false){
-            alert(data.error);
-          }
-          contractABI = JSON.parse(data);
-          console.log("ABI returend",contractABI); 
+      const response = await fetch(expurl, {
+            method: 'GET',
+        });
+      // $.getJSON(expurl, function (data) {
+      //     var contractABI = "";
+      //     if(data.success==false){
+      //       alert(data.error);
+      //     }
+      const responseJsonAddr = await response.json()
+      contractABI = JSON.parse(responseJsonAddr);
+      console.log("ABI returend",contractABI); 
           // setContractABI(contractABI);
-      });
+      // });
     }catch (error) {
       console.log(error)
     }
@@ -225,7 +230,7 @@ export default function Main() {
   // </div>)
   // }
 
-  const renderFuntionType = (data) => {
+  const renderFuntionType = (data, index) => {
     const { inputs = [], name, outputs, stateMutability, type } = data;
 
     const handleSubmit = async(e) => {
@@ -252,10 +257,25 @@ export default function Main() {
       const MyContract = new ethers.Contract( givenContractAddress , contractABI , signer);
       var funName = name+'.'+'(...inputValues)';
       try{
-        let tx = await MyContract.RNDrSLT(...inputValues);
+        const { ethereum } = window;
+
+        let chainId = await ethereum.request({ method: 'eth_chainId' });
+        console.log("Connected to chain " + chainId);
+
+        // String, hex code of the chainId of the Rinkebey test network
+        // const rinkebyChainId = "0x4"; 
+        if (chainId !== `0x${chain_ID.get(dropDownValue)}`) {
+          alert(`Please change your netwrok to "${dropDownValue}"`);
+          return;
+        }
+        let gasEstimateByProv = await MyContract[name](...inputValues);
+        let tx = await MyContract[name](...inputValues, {gasLimit: 1.5*gasEstimateByProv});
         $( `#${name+'result'}` ).html(`Result : ${tx}`);
       }catch(error){
-        alert(error.message)
+        try{alert(error.message.split('"message"')[1].split('"')[1])}
+        catch{
+          alert(error.message)
+        }        
       }
       
     };
@@ -278,7 +298,7 @@ export default function Main() {
     );
 
     return (
-      <form key={name} onSubmit={handleSubmit} 
+      <form key={`${index}${name}`} onSubmit={handleSubmit} 
         className="flex-col justify-center gap-4 items-start border-2 p-4 rounded-md">
         {renderName()}
         {renderDynamicInputs()}
@@ -296,32 +316,33 @@ export default function Main() {
 
     if(!typeRenderer) return null;
     console.log('index is:',index)
-    return typeRenderer(data);
+    return typeRenderer(data, index);
   }
 
-//   const renderUi = () => (
-//     <div className="grid grid-cols-3 gap-4 p-4" id='functionDisplay'>
-//       {contractABI.map(renderDynamicUi)}
-//     </div>
-//   );
+  // const renderUi = () => (
+  //   <div className="grid grid-cols-3 gap-4 p-4" id='functionDisplay'>
+  //     {contractABI.map(renderDynamicUi)}
+  //   </div>
+  // );
 
   const RenderUI = (type) => {
     //   const read = contractABI.filter(data => console.log(data))
-        const read = contractABI.filter(data => data.inputs.length === 0).map(renderDynamicUi)
-        const write = contractABI.filter(data => data.inputs.length > 1).map(renderDynamicUi)
-        if(type === 'read'){
-            return (
-                <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 p-4" id='functionDisplay'>
-                    {read}
-                </div>
-            )
-        } else if (type === 'write'){
-            return (
-                <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 p-4" id='functionDisplay'>
-                    {write}
-                </div>
-            )
-        }
+    const readFuncs = ['pure', 'view']
+    const read = contractABI.filter(data => readFuncs.includes(data.stateMutability)).map(renderDynamicUi)
+    const write = contractABI.filter(data => !readFuncs.includes(data.stateMutability)).map(renderDynamicUi)
+    if(type === 'read'){
+        return (
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 p-4" id='functionDisplay'>
+                {read}
+            </div>
+        )
+    } else if (type === 'write'){
+        return (
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 p-4" id='functionDisplay'>
+                {write}
+            </div>
+        )
+    }
   }
 
   return (
@@ -366,8 +387,9 @@ export default function Main() {
                   className="w-1/2 rounded-xl m-6 mb-0 p-2 hover:bg-green-400 bg-[#290b5a] hover:text-[#290b5a]"
                   onClick={noClicked}
                 >
-                  No!<br></br>TRY "EXPERIMENTAL🧪" FEATURE POWERED BY ethervm.io 
+                  No!(No way to interact)
                 </button>
+                {/* <br></br>TRY "EXPERIMENTAL🧪" FEATURE POWERED BY ethervm.io  */}
               </div>
             </form>
           </div>
@@ -409,7 +431,7 @@ export default function Main() {
                           transition ease-in-out m-0 focus:text-[#f8f9fb] focus:bg-[#02104d]
                           focus:border-blue-600 focus:outline-none placeholder:text-xs"
                 size='50'
-                placeholder="Search by Address / Txn Hash / Block / Token / Ens"
+                placeholder="Paste contract address here"
                 required
                 value={inputValue}
                 onChange={onInputChange}
@@ -446,16 +468,16 @@ export default function Main() {
               </button>
             </span> */}
             </form>
-            {/* <button onClick={e => this.clear('functionDisplay')}> clear </button> */}
           </div>
         </div>
       </div>
       {/* <div className="flex justify-center gap-10 my-4 mb-10">
         <p>
-          Read and write to Contracts
+          Read and write Contracts
         </p>
       </div> */}
       <div className="flex justify-center gap-10 my-4 mb-10">
+      <p>∎</p>
         <p
           onClick={!readFlag ? onChange : () => {}}
           className={`${
@@ -464,8 +486,9 @@ export default function Main() {
               : 'text-gray-400 cursor-pointer hover:text-green-400'
           }`}
         >
-          Read Contracts
+          Read Contract
         </p>
+        <p>┋</p>
         <p
           onClick={onChange}
           className={`${
@@ -474,8 +497,9 @@ export default function Main() {
               : 'text-gray-400 cursor-pointer hover:text-green-400'
           }`}
         >
-          Write Contracts
+          Write Contract
         </p>
+        <p>∎</p>
       </div>
       {/* {renderUi()} */}
       <div className="px-6">
