@@ -287,13 +287,13 @@ export default function Main() {
       const { internalType, name, type } = input;
       return (
         <div className="grid grid-cols-3 gap-2 w-full py-3">
-          <label className="font-bold">{name}</label>
+          <label className="font-bold break-words">{name}</label>
           <input type="text" className='px-3 py-1 text-black rounded-md col-span-2' placeholder={type} required />
         </div>
       );
     }
 
-    const renderName = () => <div className="font-bold text-xl mb-3 text-violet-400">{name}</div>;
+    const renderName = () => <div className="font-bold text-xl mb-3 break-words text-violet-400">{name}</div>;
     const renderDynamicInputs = () => inputs.map(renderInput);
     const renderSubmitAction = () => (
       <button type="submit" className='hover:bg-green-400 bg-[#5925ad]
@@ -302,13 +302,13 @@ export default function Main() {
 
     return (
       <form key={`${index}${name}`} onSubmit={handleSubmit} 
-        className="flex-col justify-center gap-4 items-start border-2 p-4 rounded-md">
+        className="flex-col justify-center gap-4 items-start border-2 p-4 overflow-auto rounded-md">
         {renderName()}
         {renderDynamicInputs()}
         {renderSubmitAction()}
-        <p className='px-2 text-white' id={`${name}result`} ></p>
+        <p className='px-2 py-2 text-left my-2 font-semibold break-words text-white' id={`${name}result`} ></p>
       </form>
-    );
+    ); 
   };
 
   const renderDynamicUi = (data, index) => {
@@ -347,8 +347,8 @@ export default function Main() {
 
   return (
     <div>
-      {isABIAvailabe && <div className='backdrop-filter z-10 backdrop-blur-sm absolute inset-0
-                        flex justify-center items-center text-left'>
+      {isABIAvailabe && <div className='backdrop-filter z-10 backdrop-blur-sm inset-0
+                        flex justify-center items-center text-left overflow-hidden fixed'>
           
           <div className="bg-[#4c249f] p-6 w-2/4 rounded-xl md:w-1/2">
             <div className="flex justify-center">
