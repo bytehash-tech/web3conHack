@@ -3,7 +3,7 @@ import { ethers } from 'ethers'
 import $ from 'jquery';
 import { ETHLogo } from './Logos';
 
-export default function Main() {
+export default function Main(props) {
   const [readFlag, setReadFlag] = useState(true)
   const [isABIAvailabe, setIsABIAvailabe] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -17,6 +17,17 @@ export default function Main() {
   chain_ID.set('rinkeby', 4);
   chain_ID.set('goerli', 5);
   chain_ID.set('kovan', 42);
+
+  useEffect(() => {
+    setReadFlag(true)
+    setIsABIAvailabe(false)
+    setInputValue('')
+    setAbiInputValue('')
+    setDropDownValue('')
+    setGivenContractAddress('')
+    setContractABI([])
+    return props.changeFlag
+  }, [props.flag])
 
   function onChange() {
     setReadFlag((prevState) => !prevState)
