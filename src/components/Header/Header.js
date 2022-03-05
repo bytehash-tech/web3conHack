@@ -16,7 +16,7 @@ export default function Header(props) {
   if (getProvider()) {
     return (
       <header className="h-20 mt-2 px-5 flex items-center" >
-        <img className="h-full cursor-pointer" onClick={props.onChange} src={icon} alt="icon"></img>
+        <img className="h-full cursor-pointer hover:animate-spin-slow" onClick={props.onChange} src={icon} alt="icon"></img>
         <h1 className="mr-auto font-semibold cursor-pointer justify-content-center text-3xl"
             onClick={props.onChange}
         >

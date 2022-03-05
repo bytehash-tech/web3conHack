@@ -313,7 +313,8 @@ export default function Main(props) {
 
     return (
       <form key={`${index}${name}`} onSubmit={handleSubmit} 
-        className="flex-col justify-center gap-4 items-start border-2 p-4 overflow-auto rounded-md">
+        className="flex-col justify-center gap-4 items-start border-2 p-4 overflow-auto rounded-md 
+        border-r-purple-700 border-b-purple-700 border-l-green-400 border-t-green-400">
         {renderName()}
         {renderDynamicInputs()}
         {renderSubmitAction()}
