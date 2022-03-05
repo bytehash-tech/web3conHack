@@ -19,10 +19,11 @@ function App() {
   return (
     <div className="App">
       <Header onChange={mainToHomeHandler} />
-      { isHomeActive ?
+      <Main />
+      {/* { isHomeActive ?
           <Home onChange={onChangeStart} isHomeActive={isHomeActive} /> :
           <Main />
-      }
+      } */}
       
     </div>
   );
