@@ -10,13 +10,11 @@ export default function Footer() {
     bottom-0
     ">
         <p className="mr-4">built with 💜 by </p>
+        <TwitterOutlined className="mr-1 flex text-center items-center" />
         <a href="https://twitter.com/bytehash_tech" target="_blank" rel="noreferrer"
-            className="hover:text-green-400 flex justify-center"
-        >
-            <span className="font-sans flex justify-center">
-                <TwitterOutlined className="mr-4 flex text-center items-center" />@</span>
-                byteHash
-        </a>
+            className="font-sans hover:text-green-400 flex justify-center text-transparent bg-clip-text bg-gradient-to-br from-[#584AFA] to-[#49F56F]
+            shadow-transparent"
+        >@byteHash</a>
     </footer>
   )
 }

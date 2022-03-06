@@ -317,18 +317,23 @@ export default function Main(props) {
           tx = await MyContract[name](...inputValues);
         }else{
           tx = await MyContract[name](...inputValues, {gasLimit: (2*gasEstimateByProv+50000)});
-        }         
+        }
         $( `#${name}result` ).html(`Result : ${tx}`);
       }catch(error){
         try{
-          alert(error.data.message)
+          if(!(error.data.message.indexOf('BigNumber') > -1)){
+            alert(error.data.message)
+          }          
         }catch{
           try{
-            alert(error.message.split('"message"')[1].split('"')[1])
+            if(!(error.message.split('"message"')[1].split('"')[1].indexOf('BigNumber') > -1)){
+              alert(error.message.split('"message"')[1].split('"')[1])
+            }            
           }
           catch{
-            console.log(error);
-            alert(error.message)
+            if(!(error.message.indexOf('BigNumber') > -1)){
+              alert(error.message)
+            }
           }   
         }             
       }
@@ -400,7 +405,7 @@ export default function Main(props) {
 
   return (
     <div>
-        {!dropDownValue && <Home />}
+        {!givenContractAddress && <Home />}
       {isABIAvailabe && <div className='backdrop-filter z-10 backdrop-blur-sm inset-0
                         flex justify-center items-center text-left overflow-hidden fixed'>
           
@@ -531,14 +536,14 @@ export default function Main(props) {
           Read and write Contracts
         </p>
       </div> */}
-      { dropDownValue && 
+      { givenContractAddress && 
       <div className="flex justify-center gap-10 my-4 mb-10">
       <p>∎</p>
         <p
           onClick={!readFlag ? onChange : () => {}}
           className={`${
             readFlag
-              ? 'text-[#f8f9fb] cursor-pointer hover:text-green-400'
+              ? 'text-green-400 cursor-pointer hover:text-green-400 bg-[#060c3e] rounded p-1'
               : 'text-gray-400 cursor-pointer hover:text-green-400'
           }`}
         >
@@ -549,7 +554,7 @@ export default function Main(props) {
           onClick={onChange}
           className={`${
             !readFlag
-              ? 'text-[#f8f9fb] cursor-pointer hover:text-green-400'
+              ? 'text-green-400 cursor-pointer hover:text-green-400 bg-[#060c3e] rounded p-1'
               : 'text-gray-400 cursor-pointer hover:text-green-400'
           }`}
         >
