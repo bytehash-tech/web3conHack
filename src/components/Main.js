@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import $ from 'jquery';
+import Home from './Home';
 
 export default function Main(props) {
   const [readFlag, setReadFlag] = useState(true)
@@ -384,6 +385,7 @@ export default function Main(props) {
 
   return (
     <div>
+        {!dropDownValue && <Home />}
       {isABIAvailabe && <div className='backdrop-filter z-10 backdrop-blur-sm inset-0
                         flex justify-center items-center text-left overflow-hidden fixed'>
           
@@ -514,6 +516,7 @@ export default function Main(props) {
           Read and write Contracts
         </p>
       </div> */}
+      { dropDownValue && 
       <div className="flex justify-center gap-10 my-4 mb-10">
       <p>∎</p>
         <p
@@ -539,8 +542,9 @@ export default function Main(props) {
         </p>
         <p>∎</p>
       </div>
+        }
       {/* {renderUi()} */}
-      <div className="px-6">
+      <div className="px-6 mb-14">
         {readFlag && RenderUI('read')}
         {!readFlag && RenderUI('write')}
       </div>
