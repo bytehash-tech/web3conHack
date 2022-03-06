@@ -45,7 +45,7 @@ function ConnectButton() {
           {address.substring(0,6)}...
         </button>
         { isModalVisible &&
-        <div className='backdrop-filter z-10 backdrop-blur-sm absolute inset-0
+        <div className='backdrop-filter z-10 backdrop-blur-sm fixed inset-0
                         flex justify-center items-center text-left'>
           
           <div className="bg-[#4c249f] p-6 w-2/4 rounded-xl md:w-1/2">
