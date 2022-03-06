@@ -6,8 +6,8 @@ export default function Home(props) {
   return (
       <div className="flex justify-center p-10 mb-0">
         <div className="w-4/5 p-4 flex-col justify-center">
-            <h1 className="text-8xl p-5 font-sans font-bold text-transparent bg-clip-text bg-gradient-to-br from-[#584AFA] to-[#49F56F]">
-                Makes Smart Contract Testing Easy!
+            <h1 className="md:text-7xl xl-text-8xl text-5xl font-sans font-bold text-transparent bg-clip-text bg-gradient-to-br from-[#584AFA] to-[#49F56F]">
+            Interaction With <span className="bg-clip-text bg-gradient-to-br from-pink-700 to-purple-700">Smart Contracts</span> Made Easy
             </h1>
             {/* <h2 className="mt-6 p-4 text-2xl font-bold text-[#8d5fc9]
                 shadow-transparent rounded-xl bg-green-400 bg-opacity-10">
