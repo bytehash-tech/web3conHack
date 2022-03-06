@@ -164,7 +164,8 @@ export default function Main(props) {
           for(var i=0;i<contractABI.length;i++){
             if(contractABI[i].stateMutability=='payable'){
               var payAmount = {internalType: 'uint256', name: contractABI[i].name , type: 'uint256'};
-              contractABI[i].inputs.push(payAmount)
+              
+              contractABI[i].inputs.unshift(payAmount)
             }
           }
           console.log("ABI returend",contractABI);
