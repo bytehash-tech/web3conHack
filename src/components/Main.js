@@ -529,6 +529,9 @@ export default function Main(props) {
             </span> */}
             </form>
           </div>
+          <p className='mt-2'>⚠️This tool is in early stage, please use it with caution⚠️</p>
+          {/* <p className='mt-2'>Contact us via <a href="https://twitter.com/bytehash_tech" target="_blank" ><u>
+            Twitter</u></a> to report any bug</p> */}
         </div>
       </div>
       {/* <div className="flex justify-center gap-10 my-4 mb-10">

@@ -15,6 +15,7 @@ export default function Footer() {
             className="font-sans hover:text-green-400 flex justify-center text-transparent bg-clip-text bg-gradient-to-br from-[#584AFA] to-[#49F56F]
             shadow-transparent"
         >@byteHash</a>
+        <p className='ml-1 mt-1 font-sans text-sm'>(💬DM us to report any bug)</p>
     </footer>
   )
 }
