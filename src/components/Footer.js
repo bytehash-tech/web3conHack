@@ -1,4 +1,5 @@
 import React from 'react'
+import { TwitterOutlined } from "@ant-design/icons"
 
 export default function Footer() {
   return (
@@ -10,9 +11,11 @@ export default function Footer() {
     p-4">
         <p className="mr-4">build with 💜 by </p>
         <a href="https://twitter.com/bytehash_tech" target="_blank" rel="noreferrer"
-            className="hover:text-green-400"
+            className="hover:text-green-400 flex justify-center"
         >
-            <span className="font-sans">@</span>byteHash
+            <span className="font-sans flex justify-center">
+                <TwitterOutlined className="mr-4 flex text-center items-center" />@</span>
+                byteHash
         </a>
     </footer>
   )
