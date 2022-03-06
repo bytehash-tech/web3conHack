@@ -1,5 +1,5 @@
-# web3conHack
-This repository is for our web3con hackathon bootsraped by Developer_Dao
+# byteHash - Blockchain agnostic user interface to test/trigger smart contract functions
+This tool has been developed in [@web3con](https://twitter.com/web3con) hackathon bootsraped by [@Developer_Dao](https://twitter.com/developer_dao)
 
 This tool helps users to interact eith smartcontracts from single place.
 
