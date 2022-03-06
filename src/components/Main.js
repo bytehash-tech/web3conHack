@@ -165,7 +165,7 @@ export default function Main(props) {
           contractABI = JSON.parse(data.result);
           console.log("ABI returend",contractABI);
           for(var i=0;i<contractABI.length;i++){
-            if(contractABI[i].stateMutability=='payable'){
+            if(contractABI[i].name && contractABI[i].stateMutability=='payable'){
               var payAmount = {internalType: 'uint256', name: contractABI[i].name , type: 'uint256'};
               
               contractABI[i].inputs.unshift(payAmount)
