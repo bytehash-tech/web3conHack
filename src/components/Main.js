@@ -407,9 +407,9 @@ export default function Main(props) {
           </div>
         </div>
       }
-      <div className="flex justify-center mt-16 py-2 xl:w-full md:w-full mx-auto">
-        <div className="xl:w-2/3 md:w-1/2 mx-auto">
-          <div className="relative flex justify-center w-full mb-4 rounded">
+      <div className="flex justify-center mb-6 px-3 mt-16 py-2 xl:w-full md:w-full mx-auto">
+        <div className="xl:w-2/3 md:w-2/3 mx-auto">
+          <div className="relative flex justify-center w-full rounded">
             <form className="flex justify-center items-center"
               onSubmit={(event) => {
                 event.preventDefault();
@@ -418,7 +418,7 @@ export default function Main(props) {
             > 
                 
               <div className="w-1/3 mr-4">
-                <div className="">
+                <div className=" break-words ">
                   <select className="form-select appearance-none block w-full px-3 py-3 text-base font-normal text-white 
                   bg-[#02104d] bg-clip-padding bg-no-repeat rounded-lg transition ease-in-out m-0 focus:border-none
                   focus:text-white focus:bg-[#02104d] focus:outline-none" aria-label="Default select example" 
