@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import $ from 'jquery';
-import { ETHLogo } from './Logos';
 
 export default function Main(props) {
   const [readFlag, setReadFlag] = useState(true)
@@ -17,6 +16,10 @@ export default function Main(props) {
   chain_ID.set('rinkeby', 4);
   chain_ID.set('goerli', 5);
   chain_ID.set('kovan', 42);
+  chain_ID.set('polygon', 137);
+  chain_ID.set('testnet', 80001);
+  chain_ID.set('bsc', 56);
+  chain_ID.set('bsctestnet', 97);
 
   useEffect(() => {
     setReadFlag(true)
@@ -49,15 +52,34 @@ export default function Main(props) {
   };
 
   function constructURL(givenChain, givenCAddress){
+    let ethChains= ['mainnet' , 'ropsten', 'rinkeby', 'kovan', 'goerli']
+    let polyChains= ['polygon' , 'testnet']
+    let bscChains = ['bsc', 'bsctestnet']
+
     let apiParam = 'https://api'
     let part2 = '.etherscan.io/api?module=contract&action=getabi&address='
     // let apiKey = `&apikey=${process.env.REACT_APP_ETHERSCAN_KEY}`
     let apiKey = `&apikey=A9MMS9EMRS3BZNU54PYB1TMNN8EUNIM1ZT`
     
-
-    if(givenChain!='mainnet'){
-      apiParam = `https://api-${givenChain}`
+    if(ethChains.includes(givenChain)){
+      if(givenChain!='mainnet'){
+        apiParam = `https://api-${givenChain}`
+      }
+    }else if(polyChains.includes(givenChain)){
+      if(givenChain!='polygon'){
+        apiParam = `https://api-${givenChain}`
+      }
+      part2 = '.polygonscan.com/api?module=contract&action=getabi&address='
+      apiKey = '&apikey=WA9QSEATSE4EQM8R8IS5TVMGAU35KTUURP'
+    }else if(bscChains.includes(givenChain)){
+      if(givenChain=='bsctestnet'){
+        apiParam = `https://api-testnet`
+      }
+      part2 = '.bscscan.com/api?module=contract&action=getabi&address='
+      apiKey = '&apikey=RM4J9F55E5T331EP445AJX2ARB4YXVQTRH'
     }
+
+    
 
 
     let tempurl = apiParam+part2+givenCAddress+apiKey;
@@ -77,7 +99,7 @@ export default function Main(props) {
       return alert('Problem with JSON format');
     }
     setIsABIAvailabe(false);
-    console.log(submittedABI);
+    // console.log(submittedABI);
     setContractABI(submittedABI);
   }
 
@@ -126,12 +148,8 @@ export default function Main(props) {
   const getABI = async () =>{
     const contractAddress = inputValue;
     const chain = dropDownValue;
-    console.log("given Address", contractAddress)
     setGivenContractAddress(contractAddress)
-    console.log("given chain", chain)
     const url = constructURL(chain,contractAddress);
-    console.log("urlGenerated",url)
-    // return;
 
     try{        
       $.getJSON(url, function (data) {
@@ -139,7 +157,6 @@ export default function Main(props) {
           if(data.status==0){
             // alert(data.result);
             return checkisABIAvilable();
-            
           }
           contractABI = JSON.parse(data.result);
           console.log("ABI returend",contractABI); 
@@ -247,6 +264,9 @@ export default function Main(props) {
     const handleSubmit = async(e) => {
       e.preventDefault();
 
+      // $(`${name}submit`).addClass("cursor-not-allowed");
+      // $(`${name}submit`).prop("disabled",true);
+
       const formElement = e.target;
       const formElements = formElement.elements;
 
@@ -269,9 +289,9 @@ export default function Main(props) {
       try{
         const { ethereum } = window;
 
-        let chainId = await ethereum.request({ method: 'eth_chainId' });
-        if (chainId !== `0x${chain_ID.get(dropDownValue)}`) {
-          alert(`Please change your netwrok to "${dropDownValue}"`);
+        let chainId = await ethereum.request({ method: 'net_version' });
+        if (chainId !== `${chain_ID.get(dropDownValue)}`) {
+          alert(`Please change your netwrok to "${dropDownValue}" in your wallet`);
           return;
         }
         let gasEstimateByProv = await MyContract[name](...inputValues);
@@ -284,12 +304,17 @@ export default function Main(props) {
         }         
         $( `#${name}result` ).html(`Result : ${tx}`);
       }catch(error){
-        console.log(error);
-        try{alert(error.message.split('"message"')[1].split('"')[1])}
-        catch{
-          console.log(error);
-          alert(error.message)
-        }        
+        try{
+          alert(error.data.message)
+        }catch{
+          try{
+            alert(error.message.split('"message"')[1].split('"')[1])
+          }
+          catch{
+            console.log(error);
+            alert(error.message)
+          }   
+        }             
       }
       
     };
@@ -307,7 +332,7 @@ export default function Main(props) {
     const renderName = () => <div className="font-bold text-xl mb-3 break-words text-violet-400">{name}</div>;
     const renderDynamicInputs = () => inputs.map(renderInput);
     const renderSubmitAction = () => (
-      <button type="submit" className='hover:bg-green-400 bg-[#5925ad]
+      <button type="submit" id={`${name}submit`} className='hover:bg-green-400 bg-[#5925ad]
       hover:text-[#290b5a] text-white font-bold mt-4 py-2 px-4 rounded-xl'>Submit</button>
     );
 
@@ -375,18 +400,14 @@ export default function Main(props) {
                 yesClicked();
               }}>
 
-              <input
-                type="text"
-                className="form-control relative flex-auto min-w-0 block w-full px-8 py-6 
-                          text-base font-normal text-[#f8f9fb] bg-[#02104d] bg-clip-padding rounded-xl
-                          transition ease-in-out m-0 focus:text-[#f8f9fb] focus:bg-[#02104d]
-                          focus:border-blue-600 focus:outline-none placeholder:text-xs"
-                size='50'
-                placeholder="If yes, Please paste it here, else click 'NO'"
-                required
-                value={abiInputValue}
-                onChange={onABIInputChange}
-              />
+              <textarea id='abiTextField' cols="71" wrap="soft" placeholder="If yes, Please paste it here, else click 'NO'"
+              className="form-control relative flex-auto min-w-0 block w-full px-8 py-6 
+              text-base font-normal text-[#f8f9fb] bg-[#02104d] bg-clip-padding rounded-xl
+              transition ease-in-out m-0 focus:text-[#f8f9fb] focus:bg-[#02104d]
+              focus:border-blue-600 focus:outline-none placeholder:text-xs" 
+              required 
+              value={abiInputValue}
+              onChange={onABIInputChange}></textarea>
                           
               <div className="flex flex-row">
                 <button type='submit'
@@ -427,11 +448,16 @@ export default function Main(props) {
                   onChange={onDropdownChange}
                   >
                       <option value="">Select chain</option>
+                      <option value="mainnet">Ethereum mainnet</option>
                       <option value="rinkeby">Rinkeby</option>
                       <option value="ropsten">Ropsten</option>
                       <option value="kovan">Kovan</option>
                       <option value="goerli">Goerli</option>
-                      <option value="mainnet">Ethereum mainnet</option>
+                      <option value="polygon">Polygon(Matic)</option>
+                      <option value="testnet">Mumbai(Testnet)</option>
+                      <option value="bsc">BSC-Mainnet</option>
+                      <option value="bsctestnet">BSC-Testnet</option>
+                      
                   </select>
                 </div>
               </div>
