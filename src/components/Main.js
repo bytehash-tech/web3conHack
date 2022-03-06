@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ethers } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 import $ from 'jquery';
 import Home from './Home';
 
@@ -160,7 +160,14 @@ export default function Main(props) {
             return checkisABIAvilable();
           }
           contractABI = JSON.parse(data.result);
-          console.log("ABI returend",contractABI); 
+          console.log("ABI returend",contractABI);
+          for(var i=0;i<contractABI.length;i++){
+            if(contractABI[i].stateMutability=='payable'){
+              var payAmount = {internalType: 'uint256', name: contractABI[i].name , type: 'uint256'};
+              contractABI[i].inputs.push(payAmount)
+            }
+          }
+          console.log("ABI returend",contractABI);
           setContractABI(contractABI);
       });
     }catch (error) {
@@ -276,7 +283,11 @@ export default function Main(props) {
       for (let i = 0; i < formElements.length-1; i++) {
         const element = formElements[i];
         if (element.nodeName === "INPUT") {
-          inputValues.push(element.value);
+          if(!isNaN(element.value)){
+            inputValues.push(ethers.BigNumber.from(element.value))
+          }else{
+            inputValues.push(element.value);
+          }
         }
       }
 
@@ -321,7 +332,7 @@ export default function Main(props) {
     };
 
     const renderInput = (input) => {
-      const { internalType, name, type } = input;
+      const { internalType, name, type} = input;
       return (
         <div className="grid grid-cols-3 gap-2 w-full py-3">
           <label className="font-bold break-words">{name}</label>
