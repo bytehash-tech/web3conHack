@@ -530,6 +530,8 @@ export default function Main(props) {
             </form>
           </div>
           <p className='mt-2'>⚠️This tool is in early stage, please use it with caution⚠️</p>
+          <p className='mt-2'>Checkout our demo <a href="https://youtu.be/oQOHYjIFQ48" target="_blank"><u>video</u></a></p>
+
           {/* <p className='mt-2'>Contact us via <a href="https://twitter.com/bytehash_tech" target="_blank" ><u>
             Twitter</u></a> to report any bug</p> */}
         </div>
