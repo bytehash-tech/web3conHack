@@ -96,6 +96,9 @@ export default function Main(props) {
     // console.log("YES clicked");
     try {
       var submittedABI = JSON.parse(abiInputValue);
+      if(submittedABI.abi){
+        submittedABI = submittedABI.abi;
+      }
     } catch (e) {
       return alert('Problem with JSON format');
     }
@@ -284,8 +287,8 @@ export default function Main(props) {
       for (let i = 0; i < formElements.length-1; i++) {
         const element = formElements[i];
         if (element.nodeName === "INPUT") {
-          if(!isNaN(element.value)){
-            inputValues.push(ethers.BigNumber.from(element.value))
+          if(!isNaN(element.value) && stateMutability=='payable'){
+            inputValues.push(ethers.utils.parseEther(element.value))
           }else{
             inputValues.push(element.value);
           }
