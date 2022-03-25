@@ -450,7 +450,7 @@ export default function Main(props) {
           </div>
         </div>
       }
-      <div className="flex justify-center mb-6 px-3 mt-16 py-2 xl:w-full md:w-full mx-auto">
+      <div className="flex justify-center mb-6 px-3 mt-16 py-2 xl:w-full md:w-full mx-auto sticky top-0 backdrop-blur-md">
         <div className="xl:w-2/3 md:w-2/3 mx-auto">
           <div className="relative flex justify-center w-full rounded">
             <form className="flex justify-center items-center"
