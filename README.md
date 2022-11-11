@@ -15,4 +15,4 @@ You can interact/trigger individual functions available and displaying on the sc
 
 This is an early stage product, so there might be bugs.
 
-Please follow us in twitter and DM [@byteHash](https://twitter.com/bytehash_tech) to inform about bugs 
+Please follow us in twitter and DM [@byteHash](https://twitter.com/bytehash_tech)
